@@ -1,6 +1,6 @@
 package by.bsuir.committee.parser;
 
-import by.bsuir.committee.entity.enrollee;
+import by.bsuir.committee.entity.Enrollee;
 
 public class ParserFactory {
     private static ParserFactory ourInstance = new ParserFactory();
@@ -10,9 +10,9 @@ public class ParserFactory {
         return ourInstance;
     }
 
-    private final FileParser<enrollee> userParser = UserFileParser.getInstance();
+    private final FileParser<Enrollee> userParser = UserFileParser.getInstance();
 
-    public FileParser<enrollee> getUserParser() {
+    public FileParser<Enrollee> getUserParser() {
 
         return userParser;
     }

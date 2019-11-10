@@ -1,8 +1,9 @@
 package by.bsuir.committee.entity;
 
-import by.bsuir.committee.entity.address;
+import by.bsuir.committee.entity.Address;
+import static by.bsuir.committee.Constants.*;
 
-public class enrollee implements Comparable<enrollee>{
+public class Enrollee implements Comparable<Enrollee>{
 	
 	private String firstName;
 	private String middleName;
@@ -10,23 +11,23 @@ public class enrollee implements Comparable<enrollee>{
 	private String facultyName;
 	private int id = 0;
 	
-	private address address;
+	private Address address;
 	
-	public enrollee()
+	public Enrollee()
 	{
 		
 	}
 	
-	public enrollee(String[] Data, address address)
+	public Enrollee(String[] data, Address address)
 	{
-		if (Data != null && Data.length < 4)
-			throw new IllegalArgumentException("Wrong number of parameters");
+		if (data != null && data.length < 4)
+			throw new IllegalArgumentException(INCORRECT_PARAMS);
 		
 		
-		setFirstName(Data[0]);
-		setMiddleName(Data[1]);
-		setLastName(Data[2]);
-		setFacultyName(Data[3]);
+		setFirstName(data[0]);
+		setMiddleName(data[1]);
+		setLastName(data[2]);
+		setFacultyName(data[3]);
 		setAddress(address);
 		setId(hashCode());
 	}
@@ -50,10 +51,10 @@ public class enrollee implements Comparable<enrollee>{
 		this.lastName = lastName;
 	}
 	
-	public address getAddress() {
+	public Address getAddress() {
 		return address;
 	}
-	public void setAddress(address address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 
@@ -72,7 +73,7 @@ public class enrollee implements Comparable<enrollee>{
 	}
 	
 	@Override
-	public int compareTo(enrollee enrollee) { 
+	public int compareTo(Enrollee enrollee) { 
 		if(this.firstName.compareTo(enrollee.firstName) > 0) {
 			return 1;
 		} else if (this.firstName.compareTo(enrollee.firstName) < 0) {
@@ -112,7 +113,7 @@ public class enrollee implements Comparable<enrollee>{
 		if (getClass() != obj.getClass()) { 
 			return false; 
 		}
-		enrollee other = (enrollee) obj;
+		Enrollee other = (Enrollee) obj;
 		if (firstName == null) {
 			if (other.firstName != null) { 
 				return false; 

@@ -6,40 +6,40 @@ import java.util.List;
 
 public class Faculty {
 	
-	private List<enrollee> enrollees;  
+	private List<Enrollee> enrollees;  
 	private String name;
 	
 	public Faculty() {
 	}
 	
 	public Faculty(String name) {
-		enrollees = new LinkedList<enrollee>();	
+		enrollees = new LinkedList<Enrollee>();	
 		
 		setName(name);	
 	}
 	
-   	public boolean AddToList(enrollee enrollee) {
+   	public boolean addToList(Enrollee enrollee) {
    		if(enrollee != null)
    			return enrollees.add(enrollee);
    		else
    			return false;
    	}
    	
-   	public boolean RemoveFromList(enrollee enrollee) {
+   	public boolean removeFromList(Enrollee enrollee) {
    		if(enrollee != null)
    			return enrollees.remove(enrollee);
    		else
    			return false;
    	}
    	
-   	public int Length() {
+   	public int length() {
    		return enrollees.size();
    	}
    
    	
-   	public enrollee GetEnrollee(int id) {
-   		enrollee result = null;
-   		enrollee tempEnrollee = null;
+   	public Enrollee getEnrollee(int id) {
+   		Enrollee result = null;
+   		Enrollee tempEnrollee = null;
    		
    		int i = 0;
    		int listLength = enrollees.size();
@@ -55,12 +55,12 @@ public class Faculty {
    	}
    	
    	
-   	public void SortList() {
+   	public void sortList() {
    		Collections.sort(this.enrollees);
    	}
    	
    	
-   	public void ShowList() {
+   	public void showList() {
    		System.out.print("Список абитуриентов " + getName() + ": \n");
    		for (int i = 0; i < enrollees.size(); i++) {
 			System.out.print(enrollees.get(i)+ "\n");
@@ -69,7 +69,7 @@ public class Faculty {
    		
    	}
    	
-   	public List<enrollee> getList( ) {
+   	public List<Enrollee> getList( ) {
    		return enrollees;
    	}
 

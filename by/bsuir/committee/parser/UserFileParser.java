@@ -6,12 +6,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import static by.bsuir.committee.Constants.*;
+import by.bsuir.committee.entity.Address;
+import by.bsuir.committee.entity.Enrollee;
 
-import by.bsuir.committee.entity.address;
-import by.bsuir.committee.entity.enrollee;
 
-
-public class UserFileParser implements FileParser<enrollee> {
+public class UserFileParser implements FileParser<Enrollee> {
 
 	private static UserFileParser ourInstance;
 
@@ -31,8 +31,8 @@ public class UserFileParser implements FileParser<enrollee> {
 
 	
 	@Override
-	public List<enrollee> getData(String path) {
-		List<enrollee> enrolleeList = new LinkedList<enrollee>();
+	public List<Enrollee> getData(String path) {
+		List<Enrollee> enrolleeList = new LinkedList<Enrollee>();
 		
 		File file = new File(path);
 		BufferedReader bufferedReader = null;
@@ -42,8 +42,8 @@ public class UserFileParser implements FileParser<enrollee> {
 		String[] dataEnrollee;
 		String[] dataFML = new String[4];
 		String[] dataAddr = new String[3];
-		address addr;
-		enrollee enrollee;
+		Address addr;
+		Enrollee enrollee;
 		
 		try {
 			if(!file.exists()) {
@@ -59,7 +59,7 @@ public class UserFileParser implements FileParser<enrollee> {
 				dataEnrollee = enrolleeNote.split(" ");
 				
 				if (dataEnrollee.length != 8)
-					throw new IllegalArgumentException("Wrong number of parameters in file.");
+					throw new IllegalArgumentException(INCORRECT_PARAMS);
 				
 				
 				dataFML[0] = dataEnrollee[1];
@@ -71,9 +71,9 @@ public class UserFileParser implements FileParser<enrollee> {
 				dataAddr[1] = dataEnrollee[6];
 				dataAddr[2] = dataEnrollee[7];
 				
-				addr = new address(dataAddr);
+				addr = new Address(dataAddr);
 				
-				enrollee = new enrollee(dataFML, addr);	
+				enrollee = new Enrollee(dataFML, addr);	
 				enrolleeList.add(enrollee);
 				
 				

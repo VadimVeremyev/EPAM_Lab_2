@@ -1,19 +1,20 @@
 package by.bsuir.committee.entity;
+import static by.bsuir.committee.Constants.*;
 
-public class address {
+public class Address {
 	private String city;
 	private String street;
 	private Integer homeNumber;
+	 
 	
-	
-	public address() {
+	public Address() {
 		
 	}
 	
-	public address(String[] Data)
+	public Address(String[] Data)
 	{
 		if (Data.length < 3)
-			throw new IllegalArgumentException("Wrong number of parameters");
+			throw new IllegalArgumentException(INCORRECT_PARAMS);
 		
 		setCity(Data[0]);
 		setStreet(Data[1]);

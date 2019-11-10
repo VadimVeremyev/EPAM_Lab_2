@@ -1,14 +1,16 @@
 package by.bsuir.committee.controller.command.impl;
 
 import by.bsuir.committee.controller.command.Command;
-import by.bsuir.committee.entity.committee;
+import by.bsuir.committee.entity.Committee;
 import by.bsuir.committee.service.ServiceFactory;
 import by.bsuir.committee.service.userService;
+import static by.bsuir.committee.Constants.*;
+
 
 public class Show implements Command{
 
 	@Override
-	public String execute(String request, committee committee) {
+	public String execute(String request, Committee committee) {
 		String faculty = null;
 		String response = "";
 		
@@ -22,10 +24,10 @@ public class Show implements Command{
 		if(data.length == 2) {
 			faculty = data[1];
 			if (!usertService.show(faculty, committee))
-				response = "No such faculty.";
+				response = NO_FACULTY;
 		}
 		else {
-			response  = "Incorrect number of parameters.";
+			response  = INCORRECT_PARAMS;
 		}
 
 		return response;

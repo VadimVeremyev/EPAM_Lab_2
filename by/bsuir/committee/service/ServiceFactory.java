@@ -1,6 +1,6 @@
 package by.bsuir.committee.service;
 
-import by.bsuir.committee.entity.enrollee;
+import by.bsuir.committee.entity.Enrollee;
 
 public class ServiceFactory {
     private static ServiceFactory ourInstance = new ServiceFactory();
@@ -10,9 +10,9 @@ public class ServiceFactory {
         return ourInstance;
     }
 
-    private final Service<enrollee> UserService = userService.getInstance();
+    private final Service<Enrollee> UserService = userService.getInstance();
 
-    public Service<enrollee> getUserService() {
+    public Service<Enrollee> getUserService() {
 
         return UserService;
     }

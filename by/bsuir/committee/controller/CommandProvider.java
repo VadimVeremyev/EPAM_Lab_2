@@ -16,7 +16,7 @@ final class CommandProvider {
 		repository.put(CommandName.EDIT, new Edit());
 		repository.put(CommandName.EXIT, new Exit());
 		repository.put(CommandName.LOAD, new Load());
-		repository.put(CommandName.REMOVE, new RemoveCommand());
+		repository.put(CommandName.REMOVE, new Remove());
 		repository.put(CommandName.SAVE, new Save());
 		repository.put(CommandName.SHOW, new Show());
 		repository.put(CommandName.SORT, new Sort());

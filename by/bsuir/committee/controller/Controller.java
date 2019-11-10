@@ -1,6 +1,6 @@
 package by.bsuir.committee.controller;
 import by.bsuir.committee.controller.command.Command;
-import by.bsuir.committee.entity.committee;
+import by.bsuir.committee.entity.Committee;
 
 
 public final class Controller {
@@ -8,7 +8,7 @@ public final class Controller {
 	
 	private final String paramDelimeter = " ";
 	
-	public String executeTask(String request, committee committee){
+	public String executeTask(String request, Committee committee){
 		String commandName;
 		Command executionCommand;
 		

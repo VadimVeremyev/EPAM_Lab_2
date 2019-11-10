@@ -6,31 +6,33 @@ import by.bsuir.committee.service.ServiceFactory;
 import by.bsuir.committee.service.userService;
 import static by.bsuir.committee.Constants.*;
 
-public class Edit implements Command{
+public class Remove implements Command {
 
 	@Override
 	public String execute(String request, Committee committee) {
-		int enrolleeID = 0;
-		String response = "";
+		String response;
+		
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		userService userService = (userService) serviceFactory.getUserService();
 		
 		String[] data = new String[3];
 		
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		userService usertService = (userService) serviceFactory.getUserService();
-		
 		data = request.split(" ");
-
+		
 		if(data.length == 2) {
+			int id = Integer.parseInt(data[1]);
+			if (userService.remove(id, committee)) {
+				response = "Enrollee with ID" + id + " removed.";
+			}
+			else {
+				response = "Enrollee with ID" +id + " not founded." ;
+			}
 			
-			enrolleeID = Integer.parseInt(data[1]);
-			
-			if(!usertService.edit(enrolleeID, committee))
-				response = NO_ENROLLE;
 		}
 		else {
 			response  = INCORRECT_PARAMS;
 		}
-
+		
 		return response;
 	}
 

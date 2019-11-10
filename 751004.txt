@@ -1,0 +1,8 @@
+126112 a a a POIT q q 2
+128098 c c c POIT c c 2
+142000 q q q POIT q q 2
+146965 v v v POIT qwe qwe 2
+142993 r r r POIT w w 2
+142993 r r r POIT w wr 2
+128139 c m d ITP w w 32
+126217 a m d ITP w w 2

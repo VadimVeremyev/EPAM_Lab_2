@@ -9,12 +9,12 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import by.bsuir.committee.dao.DAOFactory;
-import by.bsuir.committee.dao.userDAO;
-import by.bsuir.committee.entity.address;
-import by.bsuir.committee.entity.committee;
-import by.bsuir.committee.entity.enrollee;
+import by.bsuir.committee.dao.UserDAO;
+import by.bsuir.committee.entity.Address;
+import by.bsuir.committee.entity.Committee;
+import by.bsuir.committee.entity.Enrollee;
 
-public class userService implements Service<enrollee>{
+public class userService implements Service<Enrollee>{
 
     private static userService ourInstance = new userService();
 
@@ -26,13 +26,13 @@ public class userService implements Service<enrollee>{
     }
 	
 	@Override
-	public boolean add(committee committee) {
+	public boolean add(Committee committee) {
 		
 		DAOFactory daoFactory = DAOFactory.getInstance();
-	    userDAO daoUser = (userDAO) daoFactory.getDAOUser();
+	    UserDAO daoUser = (UserDAO) daoFactory.getDAOUser();
 	  
-		enrollee enrollee = null;
-		address address = null;
+		Enrollee enrollees = null;
+		Address address = null;
 		
 		BufferedReader r = null;
 		
@@ -51,30 +51,30 @@ public class userService implements Service<enrollee>{
 			dataString = r.readLine();
 			dataAddr = dataString.split(" ");
 
-			address = new address(dataAddr);
+			address = new Address(dataAddr);
 		
-			enrollee = new enrollee(dataFML, address);					
+			enrollees = new Enrollee(dataFML, address);					
 		}
 		catch (Exception e) { 
            System.out.println("Exception thrown: " + e);
 		}
 	
-		daoUser.add(enrollee);
-		return committee.AddEntollee(enrollee);
+		daoUser.add(enrollees);
+		return committee.addEntollee(enrollees);
 		
 	}
 
 	@Override
-	public enrollee get(int id, committee committee) {
+	public Enrollee get(int id, Committee committee) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean edit(int id,  committee committee) {
+	public boolean edit(int id,  Committee committee) {
 		boolean result = false;
 			 
-		enrollee enrolleeTemp = committee.getEnrollee(id);
+		Enrollee enrolleeTemp = committee.getEnrollee(id);
 		if(enrolleeTemp != null) {
 			this.remove(id, committee);
 			System.out.println("Make changes to " + enrolleeTemp);
@@ -84,31 +84,31 @@ public class userService implements Service<enrollee>{
 	}
 
 	@Override
-	public boolean remove(int id, committee committee) {
+	public boolean remove(int id, Committee committee) {
 		DAOFactory daoFactory = DAOFactory.getInstance();
-	    userDAO daoUser = (userDAO) daoFactory.getDAOUser();
+	    UserDAO daoUser = (UserDAO) daoFactory.getDAOUser();
 	    
-	    enrollee enrollee = committee.getEnrollee(id);
-	    daoUser.delete(enrollee);
+	    Enrollee enrollees = committee.getEnrollee(id);
+	    daoUser.delete(enrollees);
 		
-	    return committee.RemoveEnrollee(id);
+	    return committee.removeEnrollee(id);
 	}
 
-	public boolean sort(String facultyName, committee committee) {
-		return committee.SortList(facultyName);
+	public boolean sort(String facultyName, Committee committee) {
+		return committee.sortList(facultyName);
 	}
 	
 	public void exit() {
 		
 	}
 	
-	public boolean show(String facultyName, committee committee) {
-		return committee.ShowList(facultyName);
+	public boolean show(String facultyName, Committee committee) {
+		return committee.showList(facultyName);
 	}
 	
-	public void load(String fileName, committee committee) {	    
+	public void load(String fileName, Committee committee) {	    
 		DAOFactory daoFactory = DAOFactory.getInstance();
-	    userDAO daoUser = (userDAO) daoFactory.getDAOUser();
+	    UserDAO daoUser = (UserDAO) daoFactory.getDAOUser();
 	  
 	    daoUser.addAll(committee.getList());
 	}
@@ -117,17 +117,17 @@ public class userService implements Service<enrollee>{
 		
 		File file = new File(fileName);
 		BufferedWriter bufferedWriter = null;
-		List<enrollee> enrolleeList;
+		List<Enrollee> enrolleeList;
 		
 		
 		DAOFactory daoFactory = DAOFactory.getInstance();
-	    userDAO daoUser = (userDAO) daoFactory.getDAOUser();
+	    UserDAO daoUser = (UserDAO) daoFactory.getDAOUser();
 	  
 		try {
 			bufferedWriter = new BufferedWriter(new FileWriter(file));
 			enrolleeList = daoUser.getAll();
-			for(enrollee enrollee : enrolleeList) {	
-				bufferedWriter.write(enrollee.toString());
+			for(Enrollee Enrollee : enrolleeList) {	
+				bufferedWriter.write(Enrollee.toString());
 				bufferedWriter.newLine();
 			}
 

@@ -1,30 +1,27 @@
 package by.bsuir.committee.implementation;
 
 import java.io.BufferedReader;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import by.bsuir.committee.controller.Controller;
-import by.bsuir.committee.entity.committee;
-
+import by.bsuir.committee.entity.Committee;
+import static by.bsuir.committee.Constants.*;
 
 public class startPoint {
 	
-	private static final String ENTER_COMMAND = "Enter command: ";
-
+	
 	public static void main(String[] args)
 	{
 		Controller controller = new Controller();
 		String request = null;
 		
-		committee committee = null;
+		Committee committee = null;
 		
         BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Enter fileName for load committee: ");
+        System.out.print(ENTER_LOADPATH);
         try {
         	request = r.readLine();
-        	committee = new committee(request);
+        	committee = new Committee(request);
         	System.out.println(controller.executeTask("load " + request, committee));
         	
         	
