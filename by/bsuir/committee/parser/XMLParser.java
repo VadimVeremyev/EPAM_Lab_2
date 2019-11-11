@@ -2,6 +2,6 @@ package by.bsuir.committee.parser;
 
 import java.util.List;
 
-public interface FileParser<T> {
+public interface XMLParser<T> {
     List<T> getData(String path);
 }

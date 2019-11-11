@@ -5,7 +5,6 @@ import by.bsuir.committee.entity.Committee;
 import by.bsuir.committee.service.ServiceFactory;
 import by.bsuir.committee.service.userService;
 import static by.bsuir.committee.Constants.*;
-import static by.bsuir.committee.Constants.*;
 
 public class Sort implements Command{
 

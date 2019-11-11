@@ -1,6 +1,5 @@
 package by.bsuir.committee.entity;
 
-import by.bsuir.committee.entity.Address;
 import static by.bsuir.committee.Constants.*;
 
 public class Enrollee implements Comparable<Enrollee>{
@@ -11,14 +10,12 @@ public class Enrollee implements Comparable<Enrollee>{
 	private String facultyName;
 	private int id = 0;
 	
-	private Address address;
-	
 	public Enrollee()
 	{
 		
 	}
 	
-	public Enrollee(String[] data, Address address)
+	public Enrollee(String[] data)
 	{
 		if (data != null && data.length < 4)
 			throw new IllegalArgumentException(INCORRECT_PARAMS);
@@ -28,7 +25,6 @@ public class Enrollee implements Comparable<Enrollee>{
 		setMiddleName(data[1]);
 		setLastName(data[2]);
 		setFacultyName(data[3]);
-		setAddress(address);
 		setId(hashCode());
 	}
 
@@ -51,13 +47,6 @@ public class Enrollee implements Comparable<Enrollee>{
 		this.lastName = lastName;
 	}
 	
-	public Address getAddress() {
-		return address;
-	}
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
 	public String getFacultyName() {
 		return facultyName;
 	}
@@ -142,7 +131,7 @@ public class Enrollee implements Comparable<Enrollee>{
 	
 	@Override 
 	public String toString() { 
-		return String.format("%s %s %s %s %s %s",id, firstName, middleName, lastName, facultyName, address); 
+		return String.format("%s %s %s %s %s",id, firstName, middleName, lastName, facultyName); 
 	}
 	
 }

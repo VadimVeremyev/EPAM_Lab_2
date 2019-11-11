@@ -10,9 +10,9 @@ public class ParserFactory {
         return ourInstance;
     }
 
-    private final FileParser<Enrollee> userParser = UserFileParser.getInstance();
+    private final XMLParser<Enrollee> userParser = UserXMLParser.getInstance();
 
-    public FileParser<Enrollee> getUserParser() {
+    public XMLParser<Enrollee> getUserParser() {
 
         return userParser;
     }

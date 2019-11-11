@@ -6,7 +6,7 @@ import java.util.List;
 import by.bsuir.committee.entity.Enrollee;
 import by.bsuir.committee.entity.Faculty;
 import by.bsuir.committee.parser.ParserFactory;
-import by.bsuir.committee.parser.UserFileParser;
+import by.bsuir.committee.parser.UserXMLParser;
 
 public class Committee {
 
@@ -22,7 +22,7 @@ public class Committee {
 		faculties.add(new Faculty("ITP"));
 		
 		ParserFactory parserFactory = ParserFactory.getInstance();
-		UserFileParser fileParser = (UserFileParser)parserFactory.getUserParser();
+		UserXMLParser fileParser = (UserXMLParser)parserFactory.getUserParser();
 		
 		List<Enrollee> enrolleeList = fileParser.getData(fileName);
 		

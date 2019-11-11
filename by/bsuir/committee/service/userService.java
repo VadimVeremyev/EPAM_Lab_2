@@ -1,28 +1,51 @@
 package by.bsuir.committee.service;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
+
+import java.beans.XMLEncoder;
+import java.io.FileOutputStream;
+
+
 import by.bsuir.committee.dao.DAOFactory;
 import by.bsuir.committee.dao.UserDAO;
-import by.bsuir.committee.entity.Address;
 import by.bsuir.committee.entity.Committee;
 import by.bsuir.committee.entity.Enrollee;
 
 public class userService implements Service<Enrollee>{
 
     private static userService ourInstance = new userService();
-
+    private DocumentBuilder documentBuilder;
+    
     public static userService getInstance() {
         return ourInstance;
     }
 
     private userService() {
+    	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    	
+        try {
+            documentBuilder = factory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+        	System.out.println(e.getMessage());
+        }
     }
 	
 	@Override
@@ -32,12 +55,10 @@ public class userService implements Service<Enrollee>{
 	    UserDAO daoUser = (UserDAO) daoFactory.getDAOUser();
 	  
 		Enrollee enrollees = null;
-		Address address = null;
 		
 		BufferedReader r = null;
 		
 		String[] dataFML;
-		String[] dataAddr;
 
 		String dataString = "";
 		try {
@@ -47,13 +68,7 @@ public class userService implements Service<Enrollee>{
 			dataString = r.readLine();	
 			dataFML = dataString.split(" ");
 		
-			System.out.print("Enter a city, street and house separated by a \" \" ");
-			dataString = r.readLine();
-			dataAddr = dataString.split(" ");
-
-			address = new Address(dataAddr);
-		
-			enrollees = new Enrollee(dataFML, address);					
+			enrollees = new Enrollee(dataFML);					
 		}
 		catch (Exception e) { 
            System.out.println("Exception thrown: " + e);
@@ -114,29 +129,74 @@ public class userService implements Service<Enrollee>{
 	}
 	
 	public void save(String fileName) {
-		
-		File file = new File(fileName);
-		BufferedWriter bufferedWriter = null;
-		List<Enrollee> enrolleeList;
-		
-		
-		DAOFactory daoFactory = DAOFactory.getInstance();
-	    UserDAO daoUser = (UserDAO) daoFactory.getDAOUser();
-	  
-		try {
-			bufferedWriter = new BufferedWriter(new FileWriter(file));
-			enrolleeList = daoUser.getAll();
-			for(Enrollee Enrollee : enrolleeList) {	
-				bufferedWriter.write(Enrollee.toString());
-				bufferedWriter.newLine();
-			}
+		//TODO: Rework SAVE method - Create 
 
-			if (bufferedWriter != null)
-				bufferedWriter.close();
+		Document document;
+		try {
 			
-		} catch (IOException e) {
-		    System.out.println("Exception thrown: " + e);
-		}
+			document = documentBuilder.parse(fileName);
+      
+			Node root = document.getDocumentElement();
+	       
+			List<Enrollee> enrolleeList;
+						
+			DAOFactory daoFactory = DAOFactory.getInstance();
+		    UserDAO daoUser = (UserDAO) daoFactory.getDAOUser();
+		  
+
+			FileOutputStream fos = new FileOutputStream(new File(fileName));
+				
+			XMLEncoder encoder = new XMLEncoder(fos);
+				
+			enrolleeList = daoUser.getAll();
+				
+			for(Enrollee enrollee : enrolleeList) {	
+				Element enrolleeTag = document.createElement("enrollee");
+			
+				Element firstName = document.createElement("firstName");
+				firstName.setTextContent(enrollee.getFirstName());
 		
+				Element middleName = document.createElement("middleName");
+				middleName.setTextContent(enrollee.getMiddleName());
+	
+				Element lastName = document.createElement("lastName");
+				lastName.setTextContent(enrollee.getLastName());
+				        
+				Element facultyName = document.createElement("facultyName");
+				facultyName.setTextContent(enrollee.getFacultyName());			        
+				        
+				enrolleeTag.appendChild(firstName);
+				enrolleeTag.appendChild(middleName);
+				enrolleeTag.appendChild(lastName);
+		        enrolleeTag.appendChild(facultyName);
+	
+		        root.appendChild(enrolleeTag);
+				        
+		        writeDocument(document, fileName);
+			}
+			if(encoder != null)
+				encoder.close();
+			if(fos != null)
+				fos.close();
+		} catch (SAXException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
 	}
+
+    private static void writeDocument(Document document, String xmlPath) {
+        try {
+            Transformer tr = TransformerFactory.newInstance().newTransformer();
+            DOMSource source = new DOMSource(document);
+            FileOutputStream fos = new FileOutputStream(xmlPath);
+            StreamResult result = new StreamResult(fos);
+            tr.transform(source, result);
+        } catch (TransformerException | IOException e) {
+            e.printStackTrace(System.out);
+        }
+    }
 }
