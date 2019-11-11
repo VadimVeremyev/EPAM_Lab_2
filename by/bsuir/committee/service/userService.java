@@ -153,6 +153,9 @@ public class userService implements Service<Enrollee>{
 			for(Enrollee enrollee : enrolleeList) {	
 				Element enrolleeTag = document.createElement("enrollee");
 			
+				Element id = document.createElement("id");
+				id.setTextContent(Integer.toString(enrollee.getId()));
+				
 				Element firstName = document.createElement("firstName");
 				firstName.setTextContent(enrollee.getFirstName());
 		
@@ -164,7 +167,9 @@ public class userService implements Service<Enrollee>{
 				        
 				Element facultyName = document.createElement("facultyName");
 				facultyName.setTextContent(enrollee.getFacultyName());			        
-				        
+				   
+
+				enrolleeTag.appendChild(id);
 				enrolleeTag.appendChild(firstName);
 				enrolleeTag.appendChild(middleName);
 				enrolleeTag.appendChild(lastName);

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="enrollees" type="enrolleeType"/>
+	<xs:complexType name = "enrolleeType">
+        <xs:sequence>
+			<xs:element type="xs:string" name="firstName"/>
+			<xs:element type="xs:string" name="middleName"/>
+			<xs:element type="xs:string" name="lastName"/>
+			<xs:element type="xs:string" name="facultyName"/>
+			<xs:element type="xs:integer" name="id"/>
+		</xs:sequence>  
+	</xs:complexType>
+</xs:schema>

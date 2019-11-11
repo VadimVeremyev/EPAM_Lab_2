@@ -31,7 +31,7 @@ public class UserXMLParser implements XMLParser<Enrollee> {
 	private static UserXMLParser ourInstance;
 	private DocumentBuilder documentBuilder;
 
-	private static final String XSD_FILEPATH = "/enrollees.xsd";
+	private static final String XSD_FILEPATH = "enrollees.xsd";
 	  
     static {
     	ourInstance = new UserXMLParser();
@@ -60,10 +60,10 @@ public class UserXMLParser implements XMLParser<Enrollee> {
 		
         try {
             
-            //File xmlFile = new File(String.valueOf(path1));
-            //File xsdFile = new File(String.valueOf(path2));
+            File xmlFile = new File(xmlPath);
+            File xsdFile = new File(XSD_FILEPATH);
             
-           // validateXMLByXSD(xmlFile, xsdFile);
+            validateXMLByXSD(xmlFile, xsdFile);
             document = documentBuilder.parse(xmlPath);
             Element element = document.getDocumentElement();
             NodeList cardList = element.getElementsByTagName("enrollee");
@@ -94,7 +94,7 @@ public class UserXMLParser implements XMLParser<Enrollee> {
     	enrollee.setMiddleName(getElementTextContent(element, "middleName"));
     	enrollee.setLastName(getElementTextContent(element, "lastName"));
     	enrollee.setFacultyName(getElementTextContent(element, "facultyName"));
-    	enrollee.setId(enrollee.hashCode());
+    	enrollee.setId(Integer.parseInt(getElementTextContent(element, "id")));
         return enrollee;
     }
 
