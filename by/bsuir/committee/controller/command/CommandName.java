@@ -9,6 +9,7 @@ public enum CommandName {
     EXIT("exit"),
     SHOW("show"),
     SORT("sort"),
+    HELP("help"),
     WRONG_REQUEST("wrong_request")
     ;
 

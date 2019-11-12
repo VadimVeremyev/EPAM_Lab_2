@@ -20,6 +20,7 @@ final class CommandProvider {
 		repository.put(CommandName.SAVE, new Save());
 		repository.put(CommandName.SHOW, new Show());
 		repository.put(CommandName.SORT, new Sort());
+		repository.put(CommandName.HELP, new Help());
 		repository.put(CommandName.WRONG_REQUEST, new WrongRequest());
 	}
 	

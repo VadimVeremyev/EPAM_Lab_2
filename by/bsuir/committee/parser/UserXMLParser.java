@@ -63,15 +63,16 @@ public class UserXMLParser implements XMLParser<Enrollee> {
             File xmlFile = new File(xmlPath);
             File xsdFile = new File(XSD_FILEPATH);
             
-            validateXMLByXSD(xmlFile, xsdFile);
-            document = documentBuilder.parse(xmlPath);
-            Element element = document.getDocumentElement();
-            NodeList cardList = element.getElementsByTagName("enrollee");
+            if(validateXMLByXSD(xmlFile, xsdFile)) {
+            	document = documentBuilder.parse(xmlPath);
+            	Element element = document.getDocumentElement();
+            	NodeList cardList = element.getElementsByTagName("enrollee");
            
-            for (int i = 0; i < cardList.getLength(); i++) {
-                Element cardElement = (Element) cardList.item(i);
-                Enrollee enrollee = buildEnrollee(cardElement);
-                enrolleeList.add(enrollee);
+            	for (int i = 0; i < cardList.getLength(); i++) {
+                	Element cardElement = (Element) cardList.item(i);
+                	Enrollee enrollee = buildEnrollee(cardElement);
+                	enrolleeList.add(enrollee);
+            	}
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -107,6 +108,7 @@ public class UserXMLParser implements XMLParser<Enrollee> {
                     .validate(new StreamSource(xml));
         } catch (Exception e) {
            System.out.println(e);
+           return false;
         }
         return true;
     }
