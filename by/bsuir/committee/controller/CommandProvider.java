@@ -21,6 +21,8 @@ final class CommandProvider {
 		repository.put(CommandName.SHOW, new Show());
 		repository.put(CommandName.SORT, new Sort());
 		repository.put(CommandName.HELP, new Help());
+		repository.put(CommandName.CONNECT, new Connect());
+		repository.put(CommandName.CREATE_TABLE, new CreateTable());
 		repository.put(CommandName.WRONG_REQUEST, new WrongRequest());
 	}
 	

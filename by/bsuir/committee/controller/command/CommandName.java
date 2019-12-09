@@ -10,6 +10,8 @@ public enum CommandName {
     SHOW("show"),
     SORT("sort"),
     HELP("help"),
+    CONNECT("connect"),
+    CREATE_TABLE("createTable"),
     WRONG_REQUEST("wrong_request")
     ;
 

@@ -4,6 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -23,7 +28,6 @@ import org.xml.sax.SAXException;
 import java.beans.XMLEncoder;
 import java.io.FileOutputStream;
 
-
 import by.bsuir.committee.dao.DAOFactory;
 import by.bsuir.committee.dao.UserDAO;
 import by.bsuir.committee.entity.Committee;
@@ -33,7 +37,15 @@ public class userService implements Service<Enrollee>{
 
     private static userService ourInstance = new userService();
     private DocumentBuilder documentBuilder;
+    private Connection conn;
     
+	static {
+	    try { Class.forName("com.mysql.jdbc.Driver"); }
+	    catch(ClassNotFoundException ex) {
+	    System.err.println("Driver not found: " + ex.getMessage());
+	    }
+	};
+	    
     public static userService getInstance() {
         return ourInstance;
     }
@@ -115,6 +127,102 @@ public class userService implements Service<Enrollee>{
 	
 	public void exit() {
 		
+	}
+	
+	public boolean connect(String login, String password) {
+		
+		String dbUrl = "jdbc:mysql://localhost:8000/testing";
+		try {
+			if(conn == null)
+				conn = DriverManager.getConnection(dbUrl, login, password);
+			
+			else
+				System.out.println("You already connected.");
+		} catch (SQLException e) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean createTable() {
+
+		try {
+			if(conn != null)
+				conn.createStatement()
+				.execute("CREATE TABLE enrollees(\n" +
+				     " id integer primary key auto_increment,\n" +
+				     " enrollee_id integer not null unique,\n" +
+				     " firstName varchar(30) not null,\n" +
+				     " middleName varchar(30) not null,\n" +
+				     " lastName varchar(30) not null,\n" +
+				     " facultyName varchar(30) not null,\n" +
+				     ")");
+			else {
+				System.out.println("Connect to DB");
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean insert(Committee committee) {
+
+		try {
+			if(conn != null)
+				conn.createStatement()
+				.execute("CREATE TABLE enrollees(\n" +
+				     " id integer primary key auto_increment,\n" +
+				     " enrollee_id integer not null unique,\n" +
+				     " firstName varchar(30) not null,\n" +
+				     " middleName varchar(30) not null,\n" +
+				     " lastName varchar(30) not null,\n" +
+				     " facultyName varchar(30) not null,\n" +
+				     ")");
+			else {
+				System.out.println("Connect to DB");
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		PreparedStatement stmt;
+		try {
+			stmt = conn
+				    .prepareStatement("INSERT INTO books( enroolee_id, firstName, middleName, lastName, facultyName)\n" +
+				                  "VALUES(?, ?, ?, ?, ?)");
+		} catch (SQLException e) {
+			System.out.println("PreparedStatement creation fail.");
+			return false;
+			
+		}
+		
+		List<Enrollee> enrollees;
+		enrollees = committee.getList();
+		
+		try {
+			for (Enrollee enrollee : enrollees) {		
+			    List<String> columns = Arrays
+			    .asList( String.valueOf(enrollee.getId()) , enrollee.getFirstName(), enrollee.getMiddleName(), enrollee.getLastName(), enrollee.getFacultyName());
+			    for (int n = 0 ; n < columns.size() ; n++) {
+			    stmt.setString(n+1, columns.get(n));
+			    }
+			    stmt.execute();
+			}
+		}
+		catch (SQLException e)
+		{
+			System.out.println("Adding enrollee to database fail.");
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public boolean show(String facultyName, Committee committee) {

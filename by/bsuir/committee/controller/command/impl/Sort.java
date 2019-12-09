@@ -16,13 +16,13 @@ public class Sort implements Command{
 		String[] data = new String[3];
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		userService usertService = (userService) serviceFactory.getUserService();
+		userService userService = (userService) serviceFactory.getUserService();
 		
 		data = request.split(" ");
 
 		if(data.length == 2) {
 			faculty = data[1];
-			if (!usertService.sort(faculty, committee))
+			if (!userService.sort(faculty, committee))
 				response = NO_FACULTY;
 		}
 		else {

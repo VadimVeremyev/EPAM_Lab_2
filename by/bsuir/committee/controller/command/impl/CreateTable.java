@@ -1,37 +1,29 @@
-package by.bsuir.committee.controller.command.impl;
+ package by.bsuir.committee.controller.command.impl;
 
 import by.bsuir.committee.controller.command.Command;
 import by.bsuir.committee.entity.Committee;
 import by.bsuir.committee.service.ServiceFactory;
 import by.bsuir.committee.service.userService;
-import static by.bsuir.committee.Constants.*;
 
-
-public class Show implements Command{
+public class CreateTable implements Command {
 
 	@Override
 	public String execute(String request, Committee committee) {
-		String faculty = null;
-		String response = "";
-		
-		String[] data = new String[3];
+	
+		String response = null;
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		userService userService = (userService) serviceFactory.getUserService();
 		
-		data = request.split(" ");
 
-		if(data.length == 2) {
-			faculty = data[1];
-			if (!userService.show(faculty, committee))
-				response = NO_FACULTY;
+		if(userService.createTable()) {
+			response = "Table created.";
 		}
 		else {
-			response  = INCORRECT_PARAMS;
+			response = "Table creation fail.";
 		}
-
+		
 		return response;
-	
 	}
 
 }

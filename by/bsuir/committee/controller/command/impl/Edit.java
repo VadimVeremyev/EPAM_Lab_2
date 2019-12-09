@@ -16,7 +16,7 @@ public class Edit implements Command{
 		String[] data = new String[3];
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		userService usertService = (userService) serviceFactory.getUserService();
+		userService userService = (userService) serviceFactory.getUserService();
 		
 		data = request.split(" ");
 
@@ -24,7 +24,7 @@ public class Edit implements Command{
 			
 			enrolleeID = Integer.parseInt(data[1]);
 			
-			if(!usertService.edit(enrolleeID, committee))
+			if(!userService.edit(enrolleeID, committee))
 				response = NO_ENROLLE;
 		}
 		else {

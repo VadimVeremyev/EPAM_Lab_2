@@ -7,7 +7,9 @@ import by.bsuir.committee.controller.Controller;
 import by.bsuir.committee.entity.Committee;
 import static by.bsuir.committee.Constants.*;
 
+
 public class startPoint {
+	
 	
 	
 	public static void main(String[] args)

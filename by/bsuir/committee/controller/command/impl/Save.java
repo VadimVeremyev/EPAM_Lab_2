@@ -17,13 +17,13 @@ public class Save implements Command{
 		String[] data = new String[3];
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		userService usertService = (userService) serviceFactory.getUserService();
+		userService userService = (userService) serviceFactory.getUserService();
 		
 		data = request.split(" ");
 		
 		if(data.length == 2) {
 			fileName = data[1];
-			usertService.save(fileName);
+			userService.save(fileName);
 			response = "Committee saved in file \"" + fileName + ".";
 		}
 		else {
