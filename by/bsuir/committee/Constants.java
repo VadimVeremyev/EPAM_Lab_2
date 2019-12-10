@@ -13,4 +13,6 @@ public class Constants {
 
 	public static final String ENTER_LOADPATH = "Enter fileName for load committee: ";
 	
+	public static final String XML_FILE = "D:/Work/Курс_3/Семестр_1/ВТ/Lab_3/WebCommittee/751004.xml";
+	public static final String XSD_FILE = "D:/Work/Курс_3/Семестр_1/ВТ/Lab_3/WebCommittee/enrollees.xsd";
 }

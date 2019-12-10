@@ -24,7 +24,7 @@ public class Committee {
 		ParserFactory parserFactory = ParserFactory.getInstance();
 		UserXMLParser fileParser = (UserXMLParser)parserFactory.getUserParser();
 		
-		List<Enrollee> enrolleeList = fileParser.getData(fileName);
+		List<Enrollee> enrolleeList = fileParser.getData();
 		
 		for (Faculty faculty : faculties) {
 			for(Enrollee Enrollee : enrolleeList) {

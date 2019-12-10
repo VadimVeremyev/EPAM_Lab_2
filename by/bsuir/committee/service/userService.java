@@ -32,17 +32,21 @@ import by.bsuir.committee.dao.DAOFactory;
 import by.bsuir.committee.dao.UserDAO;
 import by.bsuir.committee.entity.Committee;
 import by.bsuir.committee.entity.Enrollee;
+import by.bsuir.committee.parser.ParserFactory;
+import by.bsuir.committee.parser.UserXMLParser;
 
 public class userService implements Service<Enrollee>{
 
     private static userService ourInstance = new userService();
     private DocumentBuilder documentBuilder;
-    private Connection conn;
+    static Connection conn;
     
 	static {
-	    try { Class.forName("com.mysql.jdbc.Driver"); }
+	    try { 
+	    	Class.forName("com.mysql.cj.jdbc.Driver");
+	    }
 	    catch(ClassNotFoundException ex) {
-	    System.err.println("Driver not found: " + ex.getMessage());
+	    	System.err.println("Driver not found: " + ex.getMessage());
 	    }
 	};
 	    
@@ -130,8 +134,8 @@ public class userService implements Service<Enrollee>{
 	}
 	
 	public boolean connect(String login, String password) {
-		
-		String dbUrl = "jdbc:mysql://localhost:8000/testing";
+		//String dbUrl = "jdbc:mysql://localhost:8000/COMMITTEE"
+		String dbUrl = "jdbc:mysql://localhost:8000/COMMITTEE?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		try {
 			if(conn == null)
 				conn = DriverManager.getConnection(dbUrl, login, password);
@@ -139,14 +143,13 @@ public class userService implements Service<Enrollee>{
 			else
 				System.out.println("You already connected.");
 		} catch (SQLException e) {
+			System.err.println("Connection error: " + e.getMessage());
 			return false;
 		}
-		
 		return true;
 	}
 	
 	public boolean createTable() {
-
 		try {
 			if(conn != null)
 				conn.createStatement()
@@ -156,55 +159,35 @@ public class userService implements Service<Enrollee>{
 				     " firstName varchar(30) not null,\n" +
 				     " middleName varchar(30) not null,\n" +
 				     " lastName varchar(30) not null,\n" +
-				     " facultyName varchar(30) not null,\n" +
+				     " facultyName varchar(30) not null\n" +
 				     ")");
 			else {
 				System.out.println("Connect to DB");
 				return false;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.err.println("CreateTable error: " + e.getMessage());
 			return false;
 		}
 		
 		return true;
 	}
 	
-	public boolean insert(Committee committee) {
-
-		try {
-			if(conn != null)
-				conn.createStatement()
-				.execute("CREATE TABLE enrollees(\n" +
-				     " id integer primary key auto_increment,\n" +
-				     " enrollee_id integer not null unique,\n" +
-				     " firstName varchar(30) not null,\n" +
-				     " middleName varchar(30) not null,\n" +
-				     " lastName varchar(30) not null,\n" +
-				     " facultyName varchar(30) not null,\n" +
-				     ")");
-			else {
-				System.out.println("Connect to DB");
-				return false;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-		
+	public boolean insert() {		
 		PreparedStatement stmt;
 		try {
 			stmt = conn
-				    .prepareStatement("INSERT INTO books( enroolee_id, firstName, middleName, lastName, facultyName)\n" +
+				    .prepareStatement("INSERT INTO enrollees( enrollee_id, firstName, middleName, lastName, facultyName)\n" +
 				                  "VALUES(?, ?, ?, ?, ?)");
 		} catch (SQLException e) {
-			System.out.println("PreparedStatement creation fail.");
-			return false;
-			
-		}
+				System.err.println("PrepareStatement error: " + e.getMessage());
+				return false;
+			}
 		
-		List<Enrollee> enrollees;
-		enrollees = committee.getList();
+		ParserFactory parserFactory = ParserFactory.getInstance();
+		UserXMLParser fileParser = (UserXMLParser)parserFactory.getUserParser();
+		
+		List<Enrollee> enrollees = fileParser.getData();
 		
 		try {
 			for (Enrollee enrollee : enrollees) {		
@@ -215,10 +198,8 @@ public class userService implements Service<Enrollee>{
 			    }
 			    stmt.execute();
 			}
-		}
-		catch (SQLException e)
-		{
-			System.out.println("Adding enrollee to database fail.");
+		} catch (SQLException e) {
+			System.err.println("Add enrollee error: " + e.getMessage());
 			return false;
 		}
 		
@@ -237,8 +218,6 @@ public class userService implements Service<Enrollee>{
 	}
 	
 	public void save(String fileName) {
-		//TODO: Rework SAVE method - Create 
-
 		Document document;
 		try {
 			

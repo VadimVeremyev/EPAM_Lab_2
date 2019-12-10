@@ -14,7 +14,7 @@ public class InsertToDB implements Command{
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		userService userService = (userService) serviceFactory.getUserService();
 				
-		if(!userService.insert(committee)) {
+		if(userService.insert()) {
 			response = "Data entered into the database.";
 		}
 		else {

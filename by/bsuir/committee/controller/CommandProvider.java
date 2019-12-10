@@ -11,7 +11,7 @@ import by.bsuir.committee.controller.command.impl.*;;
 final class CommandProvider {
 	private final Map<CommandName, Command> repository = new HashMap<>();
 	
-	CommandProvider(){
+	CommandProvider() {
 		repository.put(CommandName.ADD, new Add());
 		repository.put(CommandName.EDIT, new Edit());
 		repository.put(CommandName.EXIT, new Exit());
@@ -22,7 +22,8 @@ final class CommandProvider {
 		repository.put(CommandName.SORT, new Sort());
 		repository.put(CommandName.HELP, new Help());
 		repository.put(CommandName.CONNECT, new Connect());
-		repository.put(CommandName.CREATE_TABLE, new CreateTable());
+		repository.put(CommandName.CREATETABLE, new CreateTable());
+		repository.put(CommandName.INSERT, new InsertToDB());
 		repository.put(CommandName.WRONG_REQUEST, new WrongRequest());
 	}
 	

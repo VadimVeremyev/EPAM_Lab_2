@@ -11,7 +11,8 @@ public enum CommandName {
     SORT("sort"),
     HELP("help"),
     CONNECT("connect"),
-    CREATE_TABLE("createTable"),
+    CREATETABLE("createTable"),
+    INSERT("insert"),
     WRONG_REQUEST("wrong_request")
     ;
 
